@@ -8,14 +8,13 @@ SECRET_KEY = "regularkey"
 ALGORITHM = "HS256"
 EXPIRE_MIN = 30
 
-pwd_context = CryptContext(schemes=["bcrypt"])
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def hash_password(password:str):
-    print( "Password before hashing:", password, len(password) )
-    return pwd_context.hash(password)
+    return pwd_context.hash(password[:72])
 
-def verify_password(plain, hashed):
-    return pwd_context.verify(plain, hashed)
+def verify_password(plain:str, hashed:str):
+    return pwd_context.verify(plain[:72], hashed)
 
 def create_access_token(data: dict):
     payload = data.copy()

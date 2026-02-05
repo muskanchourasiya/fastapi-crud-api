@@ -2,6 +2,7 @@ import os
 import hashlib
 from utils import current_timestamp, save_json, load_json, CACHE_DIR
 from functools import wraps
+from pathlib import Path
 
 TTL = 300
 
@@ -18,7 +19,10 @@ def save_cache(key, data):
         "data": data
     }
 
-    save_json(cache_path(key), payload)
+def save_json(path, payload):
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w") as f:
+        json.dump(payload, f)
 
 def load_cache(key):
     path = cache_path(key)
@@ -49,7 +53,10 @@ def cached(func):
             return cached_data
         
         result = func(*args, **kwargs)
-        save_cache(key, result)
+        try:
+            save_cache(key, result)
+        except Exception as e:
+            logger.warning(f"Cache write failed: {e}")
         return result
         
     return wrapper
