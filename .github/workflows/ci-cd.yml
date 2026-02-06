@@ -29,7 +29,7 @@ jobs:
       env:
         DATABASE_URL: sqlite:///./test.db
       run: |
-        export PYTHONPATH=.
+        export PYTHONPATH=$PYTHONPATH:.
         pytest
 
     - name: Log in to Docker Hub
