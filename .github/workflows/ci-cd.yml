@@ -27,6 +27,7 @@ jobs:
 
     - name: Run tests
       run: |
+        export PYTHONPATH=.
         pytest
 
     - name: Log in to Docker Hub
