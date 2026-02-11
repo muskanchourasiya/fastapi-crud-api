@@ -20,6 +20,7 @@ def create_access_token(data: dict):
     payload = data.copy()
     payload["exp"] = datetime.utcnow() + timedelta(minutes=EXPIRE_MIN)
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+
 security = HTTPBearer()
 
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
