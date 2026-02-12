@@ -9,3 +9,4 @@ pydantic
 httpx
 pytest
 redis>=5.0.0
+alembic
